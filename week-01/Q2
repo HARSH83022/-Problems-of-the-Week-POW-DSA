@@ -1,0 +1,32 @@
+
+import java.util.*;
+
+public class SubarraySumEqualsK {
+    public static int subarraySum(int[] nums, int k) {
+        Map<Integer, Integer> prefixSumCount = new HashMap<>();
+        prefixSumCount.put(0, 1);
+
+        int sum = 0;
+        int count = 0;
+
+        for (int num : nums) {
+            sum += num;
+            if (prefixSumCount.containsKey(sum - k)) {
+                count += prefixSumCount.get(sum - k);
+            }
+            prefixSumCount.put(sum, prefixSumCount.getOrDefault(sum, 0) + 1);
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        int[] nums1 = {1, 2, 3};
+        int k1 = 3;
+        System.out.println(subarraySum(nums1, k1));
+
+        int[] nums2 = {1, 1, 1};
+        int k2 = 2;
+        System.out.println(subarraySum(nums2, k2));
+    }
+}
