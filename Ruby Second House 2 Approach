@@ -1,0 +1,45 @@
+public class RubySecondHouse {
+    public static int minCost(int[][] costs) {
+        if (costs == null || costs.length == 0) return 0;
+
+        int n = costs.length;
+        int k = costs[0].length;
+
+        int[] prev = new int[k];
+
+        for (int j = 0; j < k; j++) {
+            prev[j] = costs[0][j];
+        }
+
+        for (int i = 1; i < n; i++) {
+            int[] curr = new int[k];
+            for (int j = 0; j < k; j++) {
+                int min = Integer.MAX_VALUE;
+                for (int m = 0; m < k; m++) {
+                    if (m != j) {
+                        min = Math.min(min, prev[m]);
+                    }
+                }
+                curr[j] = costs[i][j] + min;
+            }
+            prev = curr;
+        }
+
+        int result = Integer.MAX_VALUE;
+        for (int val : prev) {
+            result = Math.min(result, val);
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[][] costs = {
+            {17, 2, 17},
+            {16, 16, 5},
+            {14, 3, 19}
+        };
+
+        System.out.println("Minimum cost to paint all houses: " + minCost(costs));
+    }
+}
