@@ -60,6 +60,83 @@ public class FindMinRotatedArray {
     }
 }
 ================================================================================================================================================
+Problem Title:2
+Subarray Sum Equals K
+You are working as a data analyst for a fitness app. Every day, users log the number of
+calories burned. Your task is to find how many continuous days (subarrays) exist where the
+total calories burned equals a certain target k. This helps the app identify specific goal-based
+streaks.
+Problem Statement:
+Given an integer array nums representing the calories burned each day, and an integer k
+representing a target calorie goal, return the total number of continuous subarrays whose
+sum is exactly equal to k.
+import java.util.Scanner;
+
+public class SubarraySumBruteForce {
+    public static int subarraySum(int[] nums, int k) {
+        int count = 0;
+        int n = nums.length;
+
+        for (int start = 0; start < n; start++) {
+            int sum = 0;
+            for (int end = start; end < n; end++) {
+                sum += nums[end];
+                if (sum == k) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+            int[] nums = new int[n];
+            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();
+            int k = sc.nextInt();
+
+            System.out.println(subarraySum(nums, k));
+        }
+    }
+}
+2. Optimized Approach
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class SubarraySumOptimized {
+    public static int subarraySum(int[] nums, int k) {
+        int count = 0, sum = 0;
+        HashMap<Integer, Integer> prefixSumFreq = new HashMap<>();
+        prefixSumFreq.put(0, 1); // base case: sum == k
+
+        for (int num : nums) {
+            sum += num;
+
+            if (prefixSumFreq.containsKey(sum - k)) {
+                count += prefixSumFreq.get(sum - k);
+            }
+
+            prefixSumFreq.put(sum, prefixSumFreq.getOrDefault(sum, 0) + 1);
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+            int[] nums = new int[n];
+            for (int i = 0; i < n; i++) nums[i] = sc.nextInt();
+            int k = sc.nextInt();
+
+            System.out.println(subarraySum(nums, k));
+        }
+    }
+}
+
+================================================================================================================================================
 Ques3 Problem Description: Ruby Second House (Medium)
 You are a construction manager overseeing the painting of a long row of houses. Each house
 must be painted one of several available colors. However, adjacent houses cannot have the
