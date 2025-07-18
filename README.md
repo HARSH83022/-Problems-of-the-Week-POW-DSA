@@ -48,7 +48,7 @@ O(1) constant space
 
 | **Aspect**              | **Previous Approach**                                           
 | **What Changed / Why**                                                         
-| ----------------------- | ------------------------------------------------------------------- 
+| ----------------------- | -------------------------------------- 
 | **Binary Search Logic** | `mid = low + (high - low) / 2`                                                                     
 
 **unsigned right shift** `>>>` as a faster and safe midpoint calculation  
@@ -58,14 +58,61 @@ O(1) constant space
 | **Return Statement**    | `return arr[low];`                                                                                                                                                              
 | **Binary Search Logic** | `if (arr[mid] > arr[high]) { low = mid + 1; } else { high = mid; }` | `if (arr[mid] > arr[high]) low = mid + 1; else high = mid;` | Same logic; used **no braces for short if/else**                                  
 | **Comments**            | Present for explanation                                                                                                                       
-| **Performance**         | `O(log N)` time, `O(1)` space                                                                                             | No performance change (still optimal)                                        
+| **Performance**         | `O(log N)` time, `O(1)` space                                                                                      | No performance change (still optimal)                                        
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+🧾 Problem Statement:
+You are a data analyst for a fitness app. Every day, users log the number of calories burned. Your goal is to identify streaks (subarrays) where the total calories burned equals a specific target k.
+
+Given: An integer array nums[] representing calories burned per day.An integer k, the target calorie goal
+Return: The total number of continuous subarrays whose sum equals exactly k
+🔢 Example
+Input:
+nums = [1, 2, 3]
+k = 3
+Output:
+Copy
+Edit
+2
+Explanation:
+Two subarrays sum to 3:
+[1, 2]
+[3]
+✅ Brute Force Approach
+🔍 Description:
+Loop through all possible subarrays, compute the sum for each, and check if it equals k.
+
+🔁 Steps:
+Use two nested loops:
+Outer loop: start index
+Inner loop: end index, accumulate the sum
+Count subarrays where the sum is k.
+Time Complexity: O(n²)
+💾 Space Complexity: O(1)
+Optimized Approach — Prefix Sum + HashMap
+🔍 Description:
+Instead of checking all subarrays, track cumulative (prefix) sums and use a HashMap to store how often a prefix sum has occurred.
+If the current prefix sum is sum and we want a subarray sum equal to k, then we need:We check how many times sum - k has occurred — that gives us the number of subarrays ending at current index with sum k.Optimization Steps:
+Step	Action
+1.	Initialize sum = 0, count = 0
+2.	Create a HashMap to store prefix sum frequencies. Add base case: map.put(0, 1)
+3.	Traverse array. For each num:
+→ sum += num
+→ Check if (sum - k) is in map
+→ If yes, add its frequency to count
+→ Update map.put(sum, freq + 1)
+4.	Return countTime Complexity: O(n)
+💾 Space Complexity: O(n) (HashMapComparison Table
+Feature	Brute Force	Optimized (Prefix Sum + Map)
+Time Complexity	O(n²)	O(n)
+Space Complexity	O(1)	O(n)
+Uses HashMap	❌	✅
+Suitable for large input	❌	✅
+Reusable Prefix Data	❌	✅
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Q3
 # Ruby Second House 🏠🎨
-
 ## Problem Statement
-
 You are a construction manager overseeing the painting of a long row of houses.  
 Each house must be painted one of several available colors. However, adjacent houses **cannot** have the same color to preserve aesthetic appeal.
 Each painting option has a different cost.  
@@ -75,17 +122,11 @@ You are given a 2D matrix `costs`, where `costs[i][j]` represents the cost of pa
 - Minimize the total painting cost.
 ---
 ## 🧠 Approach
-
 This problem is solved using **Dynamic Programming (DP)**.
-
 We maintain a DP table `dp[i][j]` which stores the minimum cost to paint up to the `i-th` house with color `j`.
-
 For each house `i` and color `j`, the cost is computed as:
 dp[i][j] = costs[i][j] + min(dp[i - 1][m]) for all m ≠ j
 Finally, we return the minimum value in the last row of the DP table, which represents the lowest cost to paint all houses following the constraints.
-
----
-
 ## ✅ Sample Input
 java
 int[][] costs = {
