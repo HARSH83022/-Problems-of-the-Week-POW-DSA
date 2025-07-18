@@ -34,7 +34,32 @@ public class FindMinRotatedArray {
         sc.close();
     }
 }
+Optimization of code!
+import java.util.Scanner;
 
+public class FindMinRotatedArray {
+
+    public static int findMin(int[] arr) {
+        int low = 0, high = arr.length - 1;
+
+        while (low < high) {
+            int mid = (low + high) >>> 1;
+            if (arr[mid] > arr[high]) low = mid + 1;
+            else high = mid;
+        }
+        return arr[low];
+    }
+
+    public static void main(String[] args) {
+        try (Scanner sc = new Scanner(System.in)) {
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; arr[i++] = sc.nextInt());
+            System.out.println(findMin(arr));
+        }
+    }
+}
+================================================================================================================================================
 Ques3 Problem Description: Ruby Second House (Medium)
 You are a construction manager overseeing the painting of a long row of houses. Each house
 must be painted one of several available colors. However, adjacent houses cannot have the
