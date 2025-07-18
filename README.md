@@ -46,6 +46,20 @@ O(log N) due to binary search
 💾 Space Complexity:
 O(1) constant space
 
+| **Aspect**              | **Previous Approach**                                           
+| **What Changed / Why**                                                         
+| ----------------------- | ------------------------------------------------------------------- 
+| **Binary Search Logic** | `mid = low + (high - low) / 2`                                                                     
+
+**unsigned right shift** `>>>` as a faster and safe midpoint calculation  
+| **Input Reading Loop**  | `for (int i = 0; i < n; i++) { arr[i] = sc.nextInt(); }`           
+| **Code Formatting**     | Traditional multiline block formatting                                       
+| **Scanner Closing**     | `sc.close()` manually                                                                      
+| **Return Statement**    | `return arr[low];`                                                                                                                                                              
+| **Binary Search Logic** | `if (arr[mid] > arr[high]) { low = mid + 1; } else { high = mid; }` | `if (arr[mid] > arr[high]) low = mid + 1; else high = mid;` | Same logic; used **no braces for short if/else**                                  
+| **Comments**            | Present for explanation                                                                                                                       
+| **Performance**         | `O(log N)` time, `O(1)` space                                                                                             | No performance change (still optimal)                                        
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 Q3
 # Ruby Second House 🏠🎨
