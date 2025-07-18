@@ -1,7 +1,52 @@
 # -Problems-of-the-Week-POW-DSA
 In this we solved problems not by approching but optimization of code is very important.
 17-7-25
+ 📝 Problem Statement
+Given a rotated sorted array (ascending sorted array rotated at an unknown pivot), find the minimum element in O(log N) time.
 
+📌 Input Format
+First line: Integer N (number of elements)
+
+Second line: N space-separated integers — the rotated sorted array
+
+📌 Output Format
+A single integer: the minimum element of the rotated array
+
+✅ Constraints
+1 <= N <= 10^5
+
+-10^9 <= A[i] <= 10^9
+
+No duplicate elements
+
+The array is a rotated version of a sorted array
+
+🧠 Approach: Binary Search (O(log N))
+Key Idea:
+Since the array was originally sorted, but then rotated, the minimum element will be the only point where the next element is greater than the current.
+
+Use binary search to narrow down the section of the array that might contain the minimum.
+
+🔁 Steps:
+Initialize: low = 0, high = N-1
+
+Loop while low < high:
+
+mid = (low + high) / 2
+
+If arr[mid] > arr[high]: Minimum is right of mid, so low = mid + 1
+
+Else: Minimum is at mid or to the left, so high = mid
+
+When loop exits, low == high, return arr[low]
+
+🕒 Time Complexity:
+O(log N) due to binary search
+
+💾 Space Complexity:
+O(1) constant space
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 Q3
 # Ruby Second House 🏠🎨
 
