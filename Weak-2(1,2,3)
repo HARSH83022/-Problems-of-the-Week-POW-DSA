@@ -1,6 +1,6 @@
 Problem of the Week – Longest Common Subsequence of Three Strings.This problem was asked by YouTube.
 public class LCSOfThreeStrings {
-Solution:-
+Solution 1:-
     // Unoptimized brute-force recursive approach
     public static int lcsRecursive(String s1, String s2, String s3, int i, int j, int k) {
         if (i < 0 || j < 0 || k < 0) return 0;
@@ -59,6 +59,68 @@ public class LCSOfThreeStringsDP {
         String s3 = scanner.nextLine().trim();
         int result = lcsOfThree(s1, s2, s3);
         System.out.println(result);
+    }
+}
+================================================================================================================================================
+Problem Title: Smallest Non-Representable Sum
+Question 2
+Unoptimized Solution
+import java.util.*;
+
+public class SmallestNonRepresentableSum {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] input = sc.nextLine().split(" ");
+        int n = input.length;
+        int[] coins = new int[n];
+        for (int i = 0; i < n; i++) {
+            coins[i] = Integer.parseInt(input[i]);
+        }
+
+        Set<Integer> allSums = new HashSet<>();
+        generateSums(coins, 0, 0, allSums);
+        int missing = 1;
+        while (allSums.contains(missing)) {
+            missing++;
+        }
+        System.out.println(missing);
+    }
+
+    static void generateSums(int[] arr, int idx, int currentSum, Set<Integer> sums) {
+        if (idx == arr.length) {
+            if (currentSum > 0) sums.add(currentSum);
+            return;
+        }
+        generateSums(arr, idx + 1, currentSum, sums);
+        generateSums(arr, idx + 1, currentSum + arr[idx], sums);
+    }
+}
+========================================================================================
+Optimized Solution (Greedy, O(N))
+import java.util.*;
+
+public class SmallestNonRepresentableSum {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] input = sc.nextLine().split(" ");
+        int n = input.length;
+        long[] coins = new long[n];
+        for (int i = 0; i < n; i++) {
+            coins[i] = Long.parseLong(input[i]);
+        }
+        long result = findSmallestNonRepresentableSum(coins);
+        System.out.println(result);
+    }
+
+    static long findSmallestNonRepresentableSum(long[] coins) {
+        long res = 1;
+        for (int i = 0; i < coins.length; i++) {
+            if (coins[i] > res) {
+                break;
+            }
+            res += coins[i];
+        }
+        return res;
     }
 }
 
