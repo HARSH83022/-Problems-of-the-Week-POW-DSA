@@ -123,5 +123,89 @@ public class SmallestNonRepresentableSum {
         return res;
     }
 }
+=================================================================================================================================================================================================
+3 Problem of the Week : Step Words Finder.
+This problem was asked by Pivotal.
+import java.util.*;
 
+public class StepWordsBruteForce {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String word = sc.nextLine().toLowerCase();
+        int n = Integer.parseInt(sc.nextLine());
+
+        Set<String> dict = new HashSet<>();
+        for (int i = 0; i < n; i++) dict.add(sc.nextLine().toLowerCase());
+
+        Set<String> result = new TreeSet<>();
+
+        for (char ch = 'a'; ch <= 'z'; ch++) {
+            String extended = word + ch;
+            permute(extended.toCharArray(), 0, dict, result);
+        }
+
+        for (String w : result) System.out.println(w);
+    }
+
+    static void permute(char[] arr, int idx, Set<String> dict, Set<String> result) {
+        if (idx == arr.length) {
+            String formed = new String(arr);
+            if (dict.contains(formed)) result.add(formed);
+            return;
+        }
+        Set<Character> seen = new HashSet<>();
+        for (int i = idx; i < arr.length; i++) {
+            if (seen.contains(arr[i])) continue;
+            seen.add(arr[i]);
+            swap(arr, i, idx);
+            permute(arr, idx + 1, dict, result);
+            swap(arr, i, idx);
+        }
+    }
+
+    static void swap(char[] arr, int i, int j) {
+        char t = arr[i];
+        arr[i] = arr[j];
+        arr[j] = t;
+    }
+}
+=====================================================
+optimize code
+import java.util.*;
+
+public class StepWordsFinder {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine().toLowerCase();
+        int n = Integer.parseInt(sc.nextLine());
+        List<String> result = new ArrayList<>();
+        int[] inputFreq = new int[26];
+        for (char c : input.toCharArray()) inputFreq[c - 'a']++;
+
+        for (int i = 0; i < n; i++) {
+            String word = sc.nextLine().toLowerCase();
+            if (word.length() != input.length() + 1) continue;
+
+            int[] wordFreq = new int[26];
+            for (char c : word.toCharArray()) wordFreq[c - 'a']++;
+
+            int diffCount = 0;
+            boolean valid = true;
+
+            for (int j = 0; j < 26; j++) {
+                int diff = wordFreq[j] - inputFreq[j];
+                if (diff < 0 || diff > 1) {
+                    valid = false;
+                    break;
+                }
+                if (diff == 1) diffCount++;
+            }
+
+            if (valid && diffCount == 1) result.add(word);
+        }
+
+        Collections.sort(result);
+        for (String word : result) System.out.println(word);
+    }
+}
 
