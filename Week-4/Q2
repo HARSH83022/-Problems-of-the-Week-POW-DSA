@@ -1,0 +1,68 @@
+ 1. Brute Force Approach (O(N))
+import java.util.*;
+
+public class BruteForceSearch {
+    public static boolean bruteSearch(int[] arr, int x) {
+        for (int val : arr) {
+            if (val == x) return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] arr = new int[N];
+
+        for (int i = 0; i < N; i++) arr[i] = sc.nextInt();
+        int x = sc.nextInt();
+
+        System.out.println(bruteSearch(arr, x));
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Optimized Approach: Custom Binary Search (O(log N), no / * >> <<)
+import java.util.*;
+
+public class SearchWithoutDivision {
+    
+    // Custom divide function: returns dividend / divisor using subtraction
+    public static int divide(int dividend, int divisor) {
+        int quotient = 0;
+        while (dividend >= divisor) {
+            dividend -= divisor;
+            quotient++;
+        }
+        return quotient;
+    }
+
+    public static boolean binarySearch(int[] arr, int x) {
+        int low = 0;
+        int high = arr.length - 1;
+        
+        while (low <= high) {
+            int diff = high - low;
+            int midOffset = divide(diff, 2); // avoid (low + high)/2
+            int mid = low + midOffset;
+
+            if (arr[mid] == x) return true;
+            else if (arr[mid] < x) low = mid + 1;
+            else high = mid - 1;
+        }
+        return false;
+    }
+
+    // Input reader and driver
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int[] arr = new int[N];
+
+        for (int i = 0; i < N; i++) arr[i] = sc.nextInt();
+        int x = sc.nextInt();
+
+        System.out.println(binarySearch(arr, x));
+    }
+}
